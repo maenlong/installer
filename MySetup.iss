@@ -264,7 +264,7 @@ Source: ".\{tmp}\slides_picture_3.png";         DestDir: "{tmp}"; Flags: dontcop
 Source: ".\{tmp}\slides_picture_4.png";         DestDir: "{tmp}"; Flags: dontcopy solidbreak; Attribs: hidden system
 #endif
 ;包含待打包项目的所有文件及文件夹
-;Source: ".\{#MyAppBinDir}\*";                   DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\{#MyAppBinDir}\*";                   DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 #ifndef PortableBuild
 #ifdef UseCustomUninstaller
 #if FileExists(".\{output}\Uninstall.exe")
@@ -301,9 +301,13 @@ Filename: "{app}\Uninstall.ini"; Section: "General"; Key: "File";    String: "Un
 ;Root: HKLM; Subkey: "Software\My Company\My Program\Settings"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"
 
 ;若有创建快捷方式的需要，请取消此区段的注释并自行添加相关脚本
-;[Icons]
-;Name: "{group}\My Program"; Filename: "{app}\MYPROG.EXE"; Parameters: "/play filename.mid"; WorkingDir: "{app}"; Comment: "This is my program"; IconFilename: "{app}\myicon.ico"
-;Name: "{group}\Documents"; Filename: "{app}\Doc"; Flags: foldershortcut
+[Icons]
+//开始菜单快捷方式
+Name: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\{#MyAppName}\{#MyAppName}; Filename: {app}\{#MyAppName}.exe; WorkingDir: {app};
+//开始菜单卸载程序
+Name: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\{#MyAppName}\卸载 {#MyAppName}; Filename:{uninstallexe}; WorkingDir: {app};
+//桌面图标快捷方式
+Name: {commondesktop}\{#MyAppName}; Filename: {app}\{#MyAppName}.exe; WorkingDir: {app};
 
 ;#ifdef RegisteAssociations
 ;[UninstallRun]
